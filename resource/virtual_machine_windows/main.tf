@@ -10,7 +10,8 @@ terraform {
 
 
 module "routetable" {
-  source              = "git::https://az34ru33l5zc4gnygsccgoobohdktj6ke7bu4n75uvmqw5wod7lq@dev.azure.com/ski-iac-org/ski-iac-mvp/_git/ski-iac-mvp-module//modules/route"
+  #source              = "git::https://az34ru33l5zc4gnygsccgoobohdktj6ke7bu4n75uvmqw5wod7lq@dev.azure.com/ski-iac-org/ski-iac-mvp/_git/ski-iac-mvp-module//modules/route"
+  source = "../../../SKI_IaC_Module/modules/virtual_machine_windows"
   vnet_name = var.vnet_name
   import_vnet = var.import_vnet
   import_resource_group_name = var.import_resource_group_name
