@@ -58,9 +58,11 @@ variable "appgw" {
     capacity = 1
   }
 }    */
+
+#appgw_config 쪽에 variable 모두 합치기 필요
 variable "appgw_config" {
   type = object({
-    
+    gateway_ip_configuration = string
   })
 }
 
