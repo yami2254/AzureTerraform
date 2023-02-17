@@ -63,9 +63,39 @@ variable "appgw" {
 variable "appgw_config" {
   type = object({
     gateway_ip_configuration = string
-  })
-}
+    frontend_port = number
+    backend_http_settings = object({
+        cookie_based_affinity = string
+        path = string
+        port = number
+        protocol = string
+        request_timeout = number       
+    })
+    http_listener = string
+    request_routing_rule = object({
+        rule_type = string
+        priority = number        
+    })
 
+  })
+  default = {
+    backend_http_settings = {
+      cookie_based_affinity = "Disabled"
+      path = "/path1"
+      port = 80
+      protocol = "Http"
+      request_timeout = 60
+    }
+    frontend_port = 80
+    gateway_ip_configuration = "my-gateway-ip-configuration"
+    http_listener = "Http"
+    request_routing_rule = {
+      priority = 10
+      rule_type = "Basic"
+    }
+  }
+}
+/* 
 
 variable "gateway_ip_configuration" {
   type = string
@@ -108,4 +138,4 @@ variable "request_routing_rule" {
     priority = 10
     rule_type = "Basic"
   }
-}
+} */

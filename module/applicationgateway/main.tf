@@ -1,5 +1,9 @@
 provider "azurerm" {
   features {}
+  subscription_id = "536e0b63-b5a1-46b2-8908-eccc0a9c27c9"
+  client_id       = "310dfeff-2227-4c22-833a-18e1170a5796"
+  client_secret   = ""
+  tenant_id       = "7d49e97a-1b9b-4907-81aa-24ff1ddf0bda"   
 }
 # resource group, vnet, subnet은 이미 배포된 것을 가정하고, data로 불러온다.
 
@@ -70,13 +74,13 @@ resource "azurerm_application_gateway" "network" {
   }
 
   gateway_ip_configuration {
-    name      = var.gateway_ip_configuration
+    name      = var.appgw_config.gateway_ip_configuration
     subnet_id = data.azurerm_subnet.frontend.id
   }
 
   frontend_port {
     name = local.frontend_port_name
-    port = var.frontend_port
+    port = var.appgw_config.frontend_port
   }
 
   frontend_ip_configuration {
@@ -90,26 +94,26 @@ resource "azurerm_application_gateway" "network" {
 
   backend_http_settings {
     name                  = local.http_setting_name
-    cookie_based_affinity = var.backend_http_settings.cookie_based_affinity
-    path                  = var.backend_http_settings.path
-    port                  = var.backend_http_settings.port
-    protocol              = var.backend_http_settings.protocol
-    request_timeout       = var.backend_http_settings.request_timeout
+    cookie_based_affinity = var.appgw_config.backend_http_settings.cookie_based_affinity
+    path                  = var.appgw_config.backend_http_settings.path
+    port                  = var.appgw_config.backend_http_settings.port
+    protocol              = var.appgw_config.backend_http_settings.protocol
+    request_timeout       = var.appgw_config.backend_http_settings.request_timeout
   }
 
   http_listener {
     name                           = local.listener_name
     frontend_ip_configuration_name = local.frontend_ip_configuration_name
     frontend_port_name             = local.frontend_port_name
-    protocol                       = var.http_listener
+    protocol                       = var.appgw_config.http_listener
   }
 
   request_routing_rule {
     name                       = local.request_routing_rule_name
-    rule_type                  = "Basic"
+    rule_type                  = var.appgw_config.request_routing_rule.rule_type
     http_listener_name         = local.listener_name
     backend_address_pool_name  = local.backend_address_pool_name
     backend_http_settings_name = local.http_setting_name
-    priority = 10
+    priority                   = var.appgw_config.request_routing_rule.priority
   }
 }
