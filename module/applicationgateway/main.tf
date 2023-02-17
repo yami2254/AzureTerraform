@@ -1,7 +1,10 @@
 provider "azurerm" {
   features {}
 }
-
+variable "resource_group_name" {
+  type = string
+  default = "example-resources"
+}
 data "azurerm_resource_group" "example" {
   name     = "example-resources"
 
