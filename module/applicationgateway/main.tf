@@ -1,3 +1,10 @@
+terraform {
+    required_providers {
+      azurerm = {
+        version = "3.43.0"
+      }
+    }
+}
 provider "azurerm" {
   features {}
   subscription_id = "536e0b63-b5a1-46b2-8908-eccc0a9c27c9"
@@ -7,27 +14,28 @@ provider "azurerm" {
 }
 # resource group, vnet, subnet은 이미 배포된 것을 가정하고, data로 불러온다.
 
-data "azurerm_resource_group" "example" {
+data "azurerm_resource_group" "rg" {
   name     = var.resource_group_name
 }
 
-data "azurerm_virtual_network" "example" {
+data "azurerm_virtual_network" "vnet" {
   name                = var.virtual_network_name
-  resource_group_name = data.azurerm_resource_group.example.name
+  resource_group_name = data.azurerm_resource_group.rg.name
 }
 
 data "azurerm_subnet" "frontend" {
   name                 = var.appgw_subnet_name
-  resource_group_name  = data.azurerm_resource_group.example.name
-  virtual_network_name = data.azurerm_virtual_network.example.name
+  resource_group_name  = data.azurerm_resource_group.rg.name
+  virtual_network_name = data.azurerm_virtual_network.vnet.name
 }
 
-resource "azurerm_public_ip" "example" {
+resource "azurerm_public_ip" "pip" {
   name                = var.public_ip.name
-  resource_group_name = data.azurerm_resource_group.example.name
-  location            = data.azurerm_resource_group.example.location
+  resource_group_name = data.azurerm_resource_group.rg.name
+  location            = data.azurerm_resource_group.rg.location
   allocation_method   = var.public_ip.allocation_method
   sku                 = var.public_ip.sku
+  zones               = var.isZones? var.appgw_config.zones : null
 }
 
 
@@ -35,8 +43,8 @@ resource "azurerm_public_ip" "example" {
 resource "azurerm_web_application_firewall_policy" "network" {
   count = var.isWAF ? 1:0  
   name                = var.web_policy.name
-  resource_group_name = data.azurerm_resource_group.example.name
-  location            = data.azurerm_resource_group.example.location
+  resource_group_name = data.azurerm_resource_group.rg.name
+  location            = data.azurerm_resource_group.rg.location
   managed_rules {
     managed_rule_set {
       version = var.web_policy.version
@@ -46,11 +54,11 @@ resource "azurerm_web_application_firewall_policy" "network" {
 
 resource "azurerm_application_gateway" "network" {
   name                = var.appgw_config.name
-  resource_group_name = data.azurerm_resource_group.example.name
-  location            = data.azurerm_resource_group.example.location
+  resource_group_name = data.azurerm_resource_group.rg.name
+  location            = data.azurerm_resource_group.rg.location
 
   firewall_policy_id = var.isWAF? azurerm_web_application_firewall_policy.network[0].id : null
-
+  zones               = var.isZones? var.appgw_config.zones : null
 #고정값
   sku {
     name     = var.isWAF? "WAF_v2" : "Standard_v2"
@@ -70,7 +78,7 @@ resource "azurerm_application_gateway" "network" {
 
   frontend_ip_configuration {
     name                 = var.appgw_config.frontend_ip_configuration
-    public_ip_address_id = azurerm_public_ip.example.id
+    public_ip_address_id = azurerm_public_ip.pip.id
   }
 
   backend_address_pool {

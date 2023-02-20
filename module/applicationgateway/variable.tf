@@ -44,6 +44,10 @@ variable "web_policy" {
   }
   }
 
+variable "isZones" {
+  type = bool
+  default = true
+}
 
 #appgw_config 쪽에 variable 모두 합치기 필요
 variable "appgw_config" {
@@ -73,6 +77,7 @@ variable "appgw_config" {
         rule_type = string
         priority = number        
     })
+    zones = list(string)
 
   })
   default = {
@@ -102,5 +107,6 @@ variable "appgw_config" {
         priority = 10
         rule_type = "Basic"
     }
+    zones = ["1","2","3"]
   }
 }
