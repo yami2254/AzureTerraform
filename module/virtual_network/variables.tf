@@ -49,15 +49,3 @@ variable "tags" {
 variable "location"{
   default = "koreacentral"
 }
-variable "is_portal_vnet" {
-  type = bool
-  default = true
-}
-variable "is_portal_subnet" {
-  type = bool
-  default = true
-}
-variable "import_vnet" {}
-variable "import_resource_group_name" {}
-
-
