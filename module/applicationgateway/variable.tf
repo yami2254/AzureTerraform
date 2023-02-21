@@ -12,10 +12,6 @@ variable "appgw_subnet_name" {
   default = "frontend"
 }
 
-variable "appgw_subnet_name2" {
-  type = string
-  default = "backend"
-}
 
 variable "public_ip" {
   type = object({
@@ -30,6 +26,13 @@ variable "public_ip" {
   }
 }
 
+# WAF 사용하면 true
+variable "isWAF" {
+  type = bool
+  default = true
+}
+
+# isWAF가 true일 때 배포됨.
 variable "web_policy" {
   type = object({
     name = string
@@ -41,69 +44,69 @@ variable "web_policy" {
   }
   }
 
-variable "appgw" {
-  type = string
-  default = "example-appgateway"
+variable "isZones" {
+  type = bool
+  default = true
 }
 
-/* variable "sku" {
-  type = object({
-    name = string
-    tier = string
-    capacity = number
-  })
-  default = {
-    name = "WAF_v2"
-    tier = "WAF_v2"
-    capacity = 1
-  }
-}    */
+#appgw_config 쪽에 variable 모두 합치기 필요
 variable "appgw_config" {
   type = object({
+    name = string
+    gateway_ip_configuration = string
+    frontend_port = object({
+        name = string
+        port = number
+    })
+    frontend_ip_configuration = string
+    backend_address_pool = string
+    backend_http_settings = object({
+        name = string
+        cookie_based_affinity = string
+        path = string
+        port = number
+        protocol = string
+        request_timeout = number       
+    })
+    http_listener = object({
+        name = string
+        protocol = string
+    })
+    request_routing_rule = object({
+        name = string
+        rule_type = string
+        priority = number        
+    })
+    zones = list(string)
+
+  })
+  default = {
+    name = "example-appgw"
+    gateway_ip_configuration = "my-gateway-ip-configuration"
+    frontend_port = {
+        name = "frontend"
+        port = 80
+    }
+    frontend_ip_configuration = "frontend-ipconfig"
+    backend_address_pool = "backend-pool"
+    backend_http_settings = {
+        name = "backend-settings"
+        cookie_based_affinity = "Disabled"
+        path = "/path1"
+        port = 80
+        protocol = "Http"
+        request_timeout = 60
+    }
     
-  })
-}
-
-
-variable "gateway_ip_configuration" {
-  type = string
-  default = "my-gateway-ip-configuration"
-}
-
-variable "frontend_port" {
-  type = number
-  default = 80
-}
-
-variable "backend_http_settings" {
-  type = object({
-    cookie_based_affinity = string
-    path = string
-    port = number
-    protocol = string
-    request_timeout = number
-  })
-  default = {
-    cookie_based_affinity = "Disabled"
-    path = "/path1"
-    port = 80
-    protocol = "Http"
-    request_timeout = 60
-  }
-}
-
-variable "http_listener" {
-  type = string
-  default = "Http"
-}
-
-variable "request_routing_rule" {
-  type = object({
-    rule_type = string
-    priority = number
-  })
-  default = {
-    priority = 10
-    rule_type = "Basic"
+    http_listener = {
+        name = "http-listener"
+        protocol = "Http"
+    }
+    request_routing_rule = {
+        name = "route-rule"
+        priority = 10
+        rule_type = "Basic"
+    }
+    zones = ["1","2","3"]
   }
 }
