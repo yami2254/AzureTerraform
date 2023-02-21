@@ -1,109 +1,73 @@
-﻿#############################################################################
-variable "subid" {type=string }
+﻿variable "tenant_id" {
+  type = string
+}
+variable "subscription_id" {
+  type = string
+}
+variable "client_id" {
+  type = string
+}
+variable "client_secret" {
+  type = string
+}
 variable "location" {
     default = "koreacentral"
 }
-variable "project_name" {
-    default = "ski-btss"
-}
 variable "tags" {
-  type        = map(string)
+  type = map(string)
 }
-variable "resource_group_name" {}
+variable "resource_group_name" {
+  type = string
+}
 variable "security_group_name" {
   type = list(string)
 }
-variable "key" {}
-variable "container_name" {}
-variable "storage_account_name" {}
-variable "subnet_name" {}
-variable "subnet_count" {}
-variable "vnet_name" {}
-
-variable "is_portal_vnet" {}
-variable "is_portal_subnet" {}
-
-variable "import_vnet" {}
-variable "import_resource_group_name" {}
-
-variable "region_list" {
-  type        = map(string)
-  
-  default     = {
-    eastasia            = "asea",
-    southeastasia       = "assw",
-    centralus           = "usce",
-    eastus              = "usea",
-    eastus2             = "use2",
-    westus              = "uswe",
-    westus2             = "usw2",
-    northcentralus      = "usnc",
-    southcentralus      = "ussc",
-    westcentralus       = "uswc",
-    northeurope         = "euno",
-    westeurop           = "euwe",
-    japanwest           = "jawe",
-    japaneast           = "jaea",
-    brazilsouth         = "brso",
-    australiaeast       = "auea",
-    australiasoutheast  = "ause",
-    southindia          = "inso",
-    centralindia        = "ince",
-    westindia           = "inwe",
-    canadacentral       = "cace",
-    canadaeast          = "caea",
-    uksouth             = "ukso",
-    ukwest              = "ukwe",
-    koreacentral        = "koce",
-    koreasouth          = "koso",
-    francecentral       = "frce",
-    francesouth         = "frso",
-    australiacentral    = "auce",
-    australiacentral2   = "auc2",
-    southafricanorth    = "sano",
-    southafricawest     = "sawe"
-  }
-}
-
-variable "inbound_rules" {
-    type = list(object({
-    security_group_name = string
-    name = string
-    priority = string
-    access = string
-    protocol = string
-    source_address_prefixes = list(string)
-    #source_port_range = string
-    source_port_ranges = list(string)
-    destination_address_prefixes = list(string)
-    #destination_port_range = string
-    destination_port_ranges = list(string)
-    description = string
-    division  = number //추가
-  }))
-  
-  description = "List of objects that represent the configuration of each inbound rule."
-   default = [
-
-   ]
-}
-
-variable "outbound_rules" {
-  type = list(object({
-    security_group_name = string
-    name = string
-    priority = string
-    access = string
-    protocol = string
-    source_address_prefixes = list(string)
-    source_port_ranges = list(string) //수정
-    destination_address_prefixes = list(string)
-    destination_port_ranges = list(string) //수정
-    description = string
-    division  = number //추가
-  }))
+variable "subnet_name" {
+  type = list(string)
   default = []
 }
+variable "vnet_name" {
+  type = string
+}
+variable "vnet_resource_group_name" {
+  type = string
+}
+# variable "inbound_rules" {
+#     type = list(object({
+#     security_group_name = string
+#     name = string
+#     priority = string
+#     access = string
+#     protocol = string
+#     source_address_prefixes = list(string)
+#     source_port_ranges = list(string)
+#     destination_address_prefixes = list(string)
+#     destination_port_ranges = list(string)
+#     description = string
+#     division  = number //추가
+#   }))
+#   default = [ ]
+#   description = "List of objects that represent the configuration of each inbound rule."
+# }
+
+# variable "outbound_rules" {
+#   type = list(object({
+#     security_group_name = string
+#     name = string
+#     priority = string
+#     access = string
+#     protocol = string
+#     source_address_prefixes = list(string)
+#     source_port_ranges = list(string) //수정
+#     destination_address_prefixes = list(string)
+#     destination_port_ranges = list(string) //수정
+#     description = string
+#     division  = number //추가
+#   }))
+#   default = []
+# }
+
+#Rule 입력 예시
   /*
   description = "List of objects that represent the configuration of each outbound rule."
    default = [

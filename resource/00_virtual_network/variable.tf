@@ -1,3 +1,15 @@
+variable "tenant_id" {
+  type = string
+}
+variable "subscription_id" {
+  type = string
+}
+variable "client_id" {
+  type = string
+}
+variable "client_secret" {
+  type = string
+}
 variable "resource_group_name" {
   type=string
 }
@@ -18,16 +30,4 @@ variable "subnet" {
 }
 variable "tags" {
   type = map(string)
-}
-variable "tenant_id" {
-  type = string
-}
-variable "subscription_id" {
-  type = string
-}
-variable "client_id" {
-  type = string
-}
-variable "client_secret" {
-  type = string
 }

@@ -3,7 +3,7 @@ data "azurerm_resource_group" "rg" {
 }
 
 module "network" {
-  source              = "../../module/virtual_network"
+  source              = "../../module/00_virtual_network"
   vnet_name           = var.vnet_name
   resource_group_name = data.azurerm_resource_group.rg.name
   address_space       = var.cidr
