@@ -1,26 +1,17 @@
-﻿# tags = {
-#     cz-org          = "Hybrid Cloud2그룹"
-#     cz-owner        = "OOO"
-#     cz-appl         = "NSG"
-#     cz-region       = "한국중부"
-#     cz-createdby    = "IaC"
-#     cz-ext2         = "SKC&C"
-#     cz-ext3         = "IaaS"
-# }
+﻿tags = {
+    key1 = "Value3"
+    key2 = "Value2"
+}
 
+vnet_resource_group_name = "az-test-network-rg"
+vnet_name = "az-test-vnet-001"
 
-is_portal_vnet = true
-is_portal_subnet = true
+security_group_name = ["az-test-dev-subnet-nsg","az-test-prod-subnet-nsg"]
+#subnet_name     = ["az-test-db-subnet","az-test-iaas-subnet"]
 
-# storage_account_name = "skiiacmvptprodtfstate1"
-# resource_group_name = "ski-iacmvpt-prod-rg"
-# container_name = "iacmvptprod-1"
-
-# import_vnet = "ski-iacmvpt-001-vnet"
-# import_resource_group_name = "ski-iacmvpt-network-rg"
-
-vnet_name = "ski-iacmvpt-vnet-01"
-
-#security_group_name = ["ski-iacmvpt-prod-db1-nic-nsg","ski-iacmvpt-prod-db2-nic-nsg"]
-subnet_name     = ["ski-iacmvpt-prod-db-subnet"]
-subnet_count    = 0
+#삭제 예정
+subscription_id= "54923c86-6e79-4849-b293-ca83bcb3a69a"
+tenant_id="1377b5c9-052d-44cc-84ed-6cf503d266df"
+client_id="08f3c36c-ae0f-4c55-a932-906373aade01"
+client_secret="hTa8Q~Nbc4yhj8uj6S.dsuhvgTkwAjumrFabya0E"
+resource_group_name = "testrg"
