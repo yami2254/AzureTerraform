@@ -2,12 +2,14 @@
     key1 = "Value3"
     key2 = "Value2"
 }
-
-vnet_resource_group_name = "az-test-network-rg"
-vnet_name = "az-test-vnet-001"
-
 security_group_name = ["az-test-dev-subnet-nsg","az-test-prod-subnet-nsg"]
-#subnet_name     = ["az-test-db-subnet","az-test-iaas-subnet"]
+#Subnet에 할당 할때만 사용되는 변수 값
+# subnet_name     = ["az-test-db-subnet","az-test-iaas-subnet"]
+# vnet_resource_group_name = "az-test-network-rg"
+# vnet_name = "az-test-vnet-001"
+
+
+
 
 #삭제 예정
 subscription_id= "54923c86-6e79-4849-b293-ca83bcb3a69a"

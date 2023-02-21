@@ -28,9 +28,11 @@ variable "subnet_name" {
 }
 variable "vnet_name" {
   type = string
+  default = "default_vnet"
 }
 variable "vnet_resource_group_name" {
   type = string
+  default = "default_vnet_rg"
 }
 # variable "inbound_rules" {
 #     type = list(object({
