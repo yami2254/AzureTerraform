@@ -7,12 +7,12 @@ public_ip = {
 }
 
 firewall-policy = "example-policy"
-isZones = false
+isZones = true
 firewall = {
-    name = "fw-koo-2"
+    name = "fw-koo-3"
     sku_name = "AZFW_VNet"
     sku_tier = "Standard"
-    zones = ["1","2","3"]
+    zones = ["1"]
     ip_configuration = {
       name = "configuration"
     }
