@@ -12,7 +12,7 @@ firewall = {
     name = "fw-koo-3"
     sku_name = "AZFW_VNet"
     sku_tier = "Standard"
-    zones = ["1"]
+    zones = ["1","2","3"]
     ip_configuration = {
       name = "configuration"
     }
